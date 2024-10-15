@@ -1,0 +1,55 @@
+type Mutation {
+    addCourse(input: NewCourseInput!): Course
+    updateCourse(input: UpdateCourseInput!): Course
+    updateTopic(input: UpdateTopicInput!): Topic
+    deleteCourse(courseId: ID!): Boolean
+    deleteTopic(topicId: ID!): Boolean
+    addTopic(input: NewTopicInput!): Topic
+}
+
+input NewCourseInput {
+    courseId: ID
+    courseCode: String!
+    courseName: String!
+    courseDescription: String
+    topic: NewTopicInput  # Embed NewTopicInput to simplify adding both course and topic
+}
+
+input UpdateCourseInput {
+    courseId: ID!
+    courseCode: String
+    courseName: String
+    courseDescription: String
+    topicIds: [ID]  # Adjusted to represent IDs only
+}
+
+input UpdateTopicInput {
+    topicId: ID!
+    topicCode: String
+    topicName: String
+}
+
+input NewTopicInput {
+    topicId: ID
+    topicCode: String!
+    topicName: String!
+}
+
+type Query {
+    courses: [Course]
+    courseById(id: ID!): Course
+}
+
+type Course {
+    id: ID!
+    code: String!
+    name: String!
+    description: String
+    topics: [Topic]  # Changed to plural for clarity
+}
+
+type Topic {
+    id: ID!
+    code: String!
+    name: String!
+}
